@@ -1,20 +1,21 @@
 import sys, os
 import numpy as np
 
-pri = [2]
-MX = int(1e6)
+pri = []
+MX = int(1e8)
 isprime = [True] * MX
-
-def primelist(n):
+ifinit = False
+def init():
     global MX
-    if pri[-1] > n:
+    global ifinit
+    if ifinit:
         return
-    for i in range(pri[-1], min(int(np.sqrt(n)),MX)):
+    for i in range(2, MX):
         if isprime[i]:
             pri.append(i)
             for j in range(i + i, MX, i):
                 isprime[j] = False
-    return
+    ifinit = True
 
 
 def factorization(n):
@@ -26,11 +27,6 @@ def factorization(n):
         while n % i == 0:
             ret.append(i)
             n //= i
-    if pri[-1]**2 < n:
-        for i in range(pri[-1], int(np.sqrt(n)), 2):
-            while n % i == 0:
-                ret.append(i)
-                n //= i
     if n != 1:
         ret.append(n)
     return ret
@@ -51,9 +47,9 @@ def factorize(numbers):
             -- Ne changez pas le nom de cette fonction, vous pouvez ajouter d'autres fonctions appelées depuis celle-ci.
             -- Ne laissez pas trainer du code hors fonctions car ce module sera importé et du coup un tel code sera exécuté et cela vous pénalisera en temps.
     """
+    init()
     result = {}
     for n in numbers:
-        primelist(n)
         result[n] = factorization(n)
     return result # ceci n'est pas une bonne réponse
 

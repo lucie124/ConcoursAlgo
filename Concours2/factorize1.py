@@ -1,41 +1,5 @@
 import sys, os
 import numpy as np
-
-pri = [2]
-MX = int(1e6)
-isprime = [True] * MX
-
-def primelist(n):
-    global MX
-    if pri[-1] > n:
-        return
-    for i in range(pri[-1], min(int(np.sqrt(n)),MX)):
-        if isprime[i]:
-            pri.append(i)
-            for j in range(i + i, MX, i):
-                isprime[j] = False
-    return
-
-
-def factorization(n):
-    global pri
-    ret = []
-    for i in pri:
-        if i * i > n:
-            break
-        while n % i == 0:
-            ret.append(i)
-            n //= i
-    if pri[-1]**2 < n:
-        for i in range(pri[-1], int(np.sqrt(n)), 2):
-            while n % i == 0:
-                ret.append(i)
-                n //= i
-    if n != 1:
-        ret.append(n)
-    return ret
-
-
 def factorize(numbers):
     """
         A Faire:         
@@ -53,18 +17,9 @@ def factorize(numbers):
     """
     result = {}
     for n in numbers:
-        primelist(n)
-        result[n] = factorization(n)
-    return result # ceci n'est pas une bonne réponse
-
-"""
-
-
-Sol 1: native algo
-    result = {}
-    for n in numbers:
         num = n
         res = []
+        # print("num = ", num)
         #factorisation of number num
         while num % 2 == 0:
             num = num / 2
@@ -73,6 +28,7 @@ Sol 1: native algo
             j = i*2+1
             while num % j == 0:
                 num = num / j
+                # print("i = ", i)
                 res.append(j)
         if num != 1:
             res.append(int(num))
@@ -80,9 +36,7 @@ Sol 1: native algo
         #add in dectionary
         result[n] = res
 
-Sol 2 : miller rabin primality test + pollard's rho algorithm
-    Not allowed in this exercice.
-"""
+    return result # ceci n'est pas une bonne réponse
 
 #########################################
 #### Ne pas modifier le code suivant ####
